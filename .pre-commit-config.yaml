@@ -18,3 +18,16 @@ repos:
     rev: 1.2.1
     hooks:
     -   id: unimport
+-   repo: https://github.com/ecugol/pre-commit-hooks-django
+    rev: v0.4.0
+    hooks:
+    -   id: check-unapplied-migrations
+    -   id: check-absent-migrations
+-   repo: local
+    hooks:
+      - id: pre-commit-django-migrations
+        name: Check django migrations
+        entry: python car_rent/manage.py makemigrations --dry-run
+        language: system
+        types: [python]
+        pass_filenames: false
