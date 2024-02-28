@@ -38,6 +38,12 @@ class Car(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
+class CarOptions(models.Model):
+    '''Model of car option'''
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    option = models.CharField(max_length=200)
+
+
 class CarModelPhoto(models.Model):
     '''Model of car model photo'''
     photo = models.ImageField()
