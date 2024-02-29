@@ -36,6 +36,8 @@ class Car(models.Model):
     score = models.FloatField(default=5.0)
     price = models.IntegerField()
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    latitude = models.FloatField()
+    langitude = models.FloatField()
 
 
 class CarOptions(models.Model):
