@@ -1,3 +1,4 @@
+from core.models import BaseAbstractModel
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -30,7 +31,7 @@ class CarModel(models.Model):
         return f'{self.title} - {self.hp} л.с.'
 
 
-class Car(models.Model):
+class Car(BaseAbstractModel):
     '''Model of User's Car'''
     car = models.ForeignKey(CarModel, on_delete=models.SET_NULL, null=True)
     score = models.FloatField(default=5.0)
