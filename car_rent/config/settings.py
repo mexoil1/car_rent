@@ -21,7 +21,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_minio_backend',
 
     # apps
     'cars',
@@ -139,17 +138,16 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 #
 # MINIO
 #
-STATICFILES_STORAGE = 'minio_storage.storage.MinioStaticStorage'
-DEFAULT_FILE_STORAGE = 'minio_storage.storage.MinioMediaStorage'
-MINIO_ENDPOINT = os.getenv('MINIO_STORAGE_ENDPOINT')
-MINIO_ACCESS_KEY = os.getenv('MINIO_ACCESS_KEY')
-MINIO_SECRET_KEY = os.getenv('MINIO_SECRET_KEY')
-MINIO_USE_HTTPS = False
-MINIO_MEDIA_FILES_BUCKET = os.getenv('MINIO_MEDIA_FILES_BUCKET')
-MINIO_STATIC_FILES_BUCKET = os.getenv('MINIO_STORAGE_STATIC_BUCKET_NAME')
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
 
 #
 # Local settings
