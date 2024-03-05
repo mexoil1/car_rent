@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_minio_backend',
 
     # apps
     'cars',
@@ -39,7 +40,7 @@ MIDDLEWARE = [
 ]
 
 if DEBUG:
-    MIDDLEWARE.insert(0, 'сonfig.middleware.RequestTimeMiddleware')
+    MIDDLEWARE.insert(0, 'config.middleware.RequestTimeMiddleware')
 
 ROOT_URLCONF = 'config.urls'
 
@@ -68,6 +69,9 @@ DATABASES = {
     }
 }
 
+#
+# Logger
+#
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -135,7 +139,21 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#
+# MINIO
+#
+STATICFILES_STORAGE = 'minio_storage.storage.MinioStaticStorage'
+DEFAULT_FILE_STORAGE = 'minio_storage.storage.MinioMediaStorage'
+MINIO_ENDPOINT = os.getenv('MINIO_STORAGE_ENDPOINT')
+MINIO_ACCESS_KEY = os.getenv('MINIO_ACCESS_KEY')
+MINIO_SECRET_KEY = os.getenv('MINIO_SECRET_KEY')
+MINIO_USE_HTTPS = False
+MINIO_MEDIA_FILES_BUCKET = os.getenv('MINIO_MEDIA_FILES_BUCKET')
+MINIO_STATIC_FILES_BUCKET = os.getenv('MINIO_STORAGE_STATIC_BUCKET_NAME')
 
+#
+# Local settings
+#
 try:
     from .settings_local import *  # noqa: pylint=unused-wildcard-import, pylint=wildcard-import
 except ImportError:
