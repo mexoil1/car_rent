@@ -39,7 +39,7 @@ MIDDLEWARE = [
 ]
 
 if DEBUG:
-    MIDDLEWARE.insert(0, 'сonfig.middleware.RequestTimeMiddleware')
+    MIDDLEWARE.insert(0, 'config.middleware.RequestTimeMiddleware')
 
 ROOT_URLCONF = 'config.urls'
 
@@ -68,6 +68,9 @@ DATABASES = {
     }
 }
 
+#
+# Logger
+#
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -135,7 +138,19 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#
+# MINIO
+#
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
 
+#
+# Local settings
+#
 try:
     from .settings_local import *  # noqa: pylint=unused-wildcard-import, pylint=wildcard-import
 except ImportError:

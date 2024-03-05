@@ -25,7 +25,7 @@ class CarModel(models.Model):
     fuel_consumption = models.FloatField(verbose_name='Расход топлива')
     hp = models.IntegerField(verbose_name='Мощность')
     brand = models.ForeignKey(
-        Brand, on_delete=models.SET_NULL, null=True, verbose_name='Марка')
+        Brand, on_delete=models.PROTECT, null=True, verbose_name='Марка')
 
     def __str__(self):
         return f'{self.title} - {self.hp} л.с.'
@@ -33,7 +33,7 @@ class CarModel(models.Model):
 
 class Car(BaseAbstractModel):
     '''Model of User's Car'''
-    car = models.ForeignKey(CarModel, on_delete=models.SET_NULL, null=True)
+    car = models.ForeignKey(CarModel, on_delete=models.PROTECT, null=True)
     score = models.FloatField(default=5.0)
     price = models.IntegerField()
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -55,8 +55,8 @@ class CarModelPhoto(models.Model):
 
 class BrandPhoto(models.Model):
     '''Model of brand photo'''
-    photo = models.ImageField()
-    car = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to='brands')
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
 
 
 class CarPhoto(models.Model):
