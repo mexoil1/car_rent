@@ -89,13 +89,13 @@ LOGGING = {
         'prod': {
             'level': 'WARNING',
             'class': 'logging.FileHandler',
-            'filename': 'logs/prod.log',
+            'filename': f'{BASE_DIR}/logs/prod.log',
             'formatter': 'verbose',
         },
         'dev': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': 'logs/dev.log',
+            'filename': f'{BASE_DIR}/logs/dev.log',
             'formatter': 'verbose',
         },
     },

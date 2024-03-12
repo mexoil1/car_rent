@@ -1,8 +1,5 @@
-from django.contrib.auth import authenticate, get_user_model
-from django.contrib.auth.hashers import make_password
-from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
 from rest_framework import status
-from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -12,6 +9,7 @@ from .serializers.model_serializers import (UserRegisterSerializer,
                                             UserSerializer)
 from .serializers.serializers import (AuthTokenSerializer,
                                       UpdatePasswordSerializer)
+from .utils import authenticate_user, update_password
 
 User = get_user_model()
 
@@ -43,7 +41,7 @@ class CustomObtainAuthToken(TokenViewBase):
         email = validated_data.get('email')
         password = validated_data.get('password')
 
-        user = self.authenticate_user(email, password)
+        user = authenticate_user(email, password)
 
         refresh = RefreshToken.for_user(user)
         return Response({
@@ -51,15 +49,6 @@ class CustomObtainAuthToken(TokenViewBase):
             'access': str(refresh.access_token),
             'user': UserSerializer(user).data
         }, status=status.HTTP_202_ACCEPTED)
-
-    def authenticate_user(self, email, password):
-        '''Authorize user'''
-        user = get_object_or_404(User, email=email)
-        authenticated_user = authenticate(
-            username=user.username, password=password)
-        if authenticated_user is None:
-            raise AuthenticationFailed('Invalid password')
-        return authenticated_user
 
 
 class UpdatePasswordView(APIView):
@@ -72,12 +61,6 @@ class UpdatePasswordView(APIView):
         email = serializer.validated_data.get('email')
         new_password = serializer.validated_data.get('new_password')
 
-        self.update_password(email, new_password)
+        update_password(email, new_password)
 
         return Response({'message': 'Password successfully updated'}, status=status.HTTP_200_OK)
-
-    def update_password(self, email, new_password):
-        '''Updating password'''
-        user = get_object_or_404(User, email=email)
-        user.password = make_password(new_password)
-        user.save()
