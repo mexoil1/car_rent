@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework_simplejwt',
 
     # apps
     'cars',
@@ -88,13 +89,13 @@ LOGGING = {
         'prod': {
             'level': 'WARNING',
             'class': 'logging.FileHandler',
-            'filename': 'logs/prod.log',
+            'filename': f'{BASE_DIR}/logs/prod.log',
             'formatter': 'verbose',
         },
         'dev': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': 'logs/dev.log',
+            'filename': f'{BASE_DIR}/logs/dev.log',
             'formatter': 'verbose',
         },
     },
@@ -122,6 +123,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 AUTH_USER_MODEL = 'users.User'
 
 LANGUAGE_CODE = 'en-us'
