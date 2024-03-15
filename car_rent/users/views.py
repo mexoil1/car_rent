@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import status
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -60,7 +61,7 @@ class UpdatePasswordView(APIView):
         # TODO: add email message and code
         email = serializer.validated_data.get('email')
         new_password = serializer.validated_data.get('new_password')
-
-        update_password(email, new_password)
-
-        return Response({'message': 'Password successfully updated'}, status=status.HTTP_200_OK)
+        if request.user.email == email:
+            update_password(email, new_password)
+            return Response({'message': 'Password successfully updated'}, status=status.HTTP_200_OK)
+        raise PermissionDenied()
