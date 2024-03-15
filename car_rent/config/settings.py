@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'rest_framework_simplejwt',
 
     # apps
@@ -158,7 +159,7 @@ STORAGES = {
         'class': 'storages.backends.s3boto3.S3Boto3Storage',
     },
     'staticfiles': {
-        'class': 'storages.backends.s3boto3.S3Boto3Storage',
+        'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
     },
 }
 
