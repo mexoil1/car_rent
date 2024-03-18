@@ -7,5 +7,6 @@ class BrandBriefSerialzer(serializers.ModelSerializer):
     class Meta:
         model = Brand
         fields = [
+            'id',
             'title',
         ]

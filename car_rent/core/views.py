@@ -25,9 +25,3 @@ class BaseGetView(BaseListView, mixins.RetrieveModelMixin):
     queryset_brief = None
     serializer_class = None
     serializer_class_brief = None
-
-    def get_queryset(self):
-        return super().get_queryset()
-
-    def get_serializer_class(self):
-        return super().get_serializer_class()
