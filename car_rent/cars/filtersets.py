@@ -13,12 +13,6 @@ class BaseCarsFilterset(filters.FilterSet):
             'title',
         ]
 
-    def filter_title(self, queryset, name, value):
-        if not value:
-            return queryset
-
-        return queryset.filter(title__istartswith=value)
-
 
 class BrandFilterset(BaseCarsFilterset):
     '''Filterset for brands'''
