@@ -63,16 +63,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
     }
 }
 
 #
 # Logger
 #
+LEVEL_OF_CONSOLE_LOG = os.getenv('LEVEL_OF_CONSOLE_LOG', 'INFO')
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -84,7 +96,7 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'INFO',
+            'level': LEVEL_OF_CONSOLE_LOG,
             'class': 'logging.StreamHandler',
         },
         'prod': {
@@ -127,7 +139,8 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 AUTH_USER_MODEL = 'users.User'
 
@@ -156,10 +169,10 @@ AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
 
 STORAGES = {
     'default': {
-        'class': 'storages.backends.s3boto3.S3Boto3Storage',
-    },
-    'staticfiles': {
         'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
