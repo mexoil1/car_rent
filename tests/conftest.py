@@ -1,8 +1,14 @@
 import pytest
 from django.contrib.auth import get_user_model
 from django.test import Client
+from pytest_factoryboy import register
+
+from .factories import cars
 
 User = get_user_model()
+
+register(cars.BrandFactory)
+register(cars.CarModelFactory)
 
 
 @pytest.fixture
