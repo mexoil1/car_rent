@@ -28,6 +28,9 @@ INSTALLED_APPS = [
     'cars',
     'users',
     'orders',
+
+    # docs
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -140,7 +143,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 AUTH_USER_MODEL = 'users.User'
 
