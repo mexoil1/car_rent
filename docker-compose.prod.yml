@@ -2,7 +2,7 @@ version: '1'
 
 volumes:
   pg_data:
-  static:
+  static-data:
 
 services:
   db:
@@ -16,7 +16,7 @@ services:
     image: grigoleg/car_rent_backend
     env_file: .env
     volumes:
-      - static:/static_backend
+      - static-data:/vol/static
   gateway:
     container_name: car_rent_gateway
     image: grigoleg/car_rent_gateway
@@ -24,4 +24,7 @@ services:
     env_file: .env
     ports:
       - 8000:80
+    volumes:
+      - static-data:/vol/static
+
     

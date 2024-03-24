@@ -158,8 +158,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static_backend/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static')
+STATIC_URL = 'static/'
+STATIC_ROOT = "/vol/static"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
