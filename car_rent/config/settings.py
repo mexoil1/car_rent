@@ -2,6 +2,7 @@ import os
 from distutils.util import strtobool
 from pathlib import Path
 
+import sentry_sdk
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -180,6 +181,15 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
+#
+# Sentry
+#
+if not DEBUG:
+    sentry_sdk.init(
+        dsn=os.getenv('SENTRY_DSN'),
+        traces_sample_rate=1.0,
+        profiles_sample_rate=1.0,
+    )
 
 #
 # Local settings
