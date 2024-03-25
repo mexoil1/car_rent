@@ -14,6 +14,7 @@ from .serializers.serializers import (AuthTokenOutputSerializer,
                                       AuthTokenSerializer,
                                       UpdatePasswordSerializer)
 from .utils import authenticate_user, update_password
+from core.utils import send_mail
 
 User = get_user_model()
 
@@ -44,7 +45,6 @@ class RegistrationView(APIView):
         description='Endpoint for user registration'
     )
     def post(self, request):
-
         user_data = request.data.copy()
         serializer = UserRegisterSerializer(data=user_data)
         if serializer.is_valid():

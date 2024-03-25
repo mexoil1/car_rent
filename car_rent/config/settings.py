@@ -191,6 +191,13 @@ if not DEBUG:
         profiles_sample_rate=1.0,
     )
 
+
+#
+# SMTP
+#
+SMTP_EMAIL = os.getenv("SMTP_EMAIL")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+
 #
 # Local settings
 #
