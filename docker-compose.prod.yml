@@ -1,0 +1,30 @@
+version: '1'
+
+volumes:
+  pg_data:
+  static-data:
+
+services:
+  db:
+    container_name: car_rent_db
+    image: postgres:15
+    env_file: .env_file
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+  backend:
+    container_name: car_rent_backend
+    image: grigoleg/car_rent_backend
+    env_file: .env
+    volumes:
+      - static-data:/vol/static
+  gateway:
+    container_name: car_rent_gateway
+    image: grigoleg/car_rent_gateway
+    build: ./gateway/
+    env_file: .env
+    ports:
+      - 8000:80
+    volumes:
+      - static-data:/vol/static
+
+    
