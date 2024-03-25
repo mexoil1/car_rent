@@ -185,7 +185,7 @@ STORAGES = {
 #
 if not DEBUG:
     sentry_sdk.init(
-        dsn="https://aec3ca2ab559958b9c7f1bf8100ea2d6@o4505255702822912.ingest.us.sentry.io/4506970655096832",
+        dsn=os.getenv('SENTRY_DSN'),
         traces_sample_rate=1.0,
         profiles_sample_rate=1.0,
     )
