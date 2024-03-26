@@ -4,6 +4,8 @@ from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from .managers import OrderingManager
+
 User = get_user_model()
 
 
@@ -12,6 +14,8 @@ class Brand(models.Model):
     title = models.CharField(max_length=50, verbose_name='Название')
     description = models.TextField(
         null=True, blank=True, verbose_name='Описание')
+
+    objects = OrderingManager()
 
     class Meta:
         verbose_name = 'Бренд'
@@ -43,6 +47,8 @@ class CarModel(models.Model):
     hp = models.IntegerField(verbose_name='Мощность')
     brand = models.ForeignKey(
         Brand, on_delete=models.PROTECT, null=True, verbose_name='Марка')
+
+    objects = OrderingManager()
 
     class Meta:
         verbose_name = 'Модель автомобиля'
