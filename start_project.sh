@@ -11,4 +11,7 @@ docker compose -f docker-compose.dev.yml up -d
 
 echo "Запуск сервера..."
 python car_rent/manage.py runserver
+
+echo "Запуск Celery worker..."
+celery -A car_rent worker -l INFO
 wait
