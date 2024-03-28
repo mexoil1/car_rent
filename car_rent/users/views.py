@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
+from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
@@ -118,8 +119,11 @@ class SendPasswordCodeView(APIView):
         serializer = SendPasswordCodeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         email = serializer.validated_data.get('email')
+        user = get_object_or_404(User, email=email)
+        first_name = user.first_name
+        last_name = user.last_name
         code = generate_code()
-        send_password_change_email.delay(email, code)
+        send_password_change_email.delay(email, code, first_name, last_name)
         cache.set(email, code, timeout=settings.CODE_LIFETIME)
         return Response({'detail': 'Message successfully sent'}, status=status.HTTP_202_ACCEPTED)
 
@@ -195,5 +199,6 @@ class UpdatePasswordView(APIView):
         new_password = serializer.validated_data.get('new_password')
         if code == cache.get(email):
             update_password(email, new_password)
+            cache.delete(email)
             return Response({'detail': 'Password successfully updated'}, status=status.HTTP_200_OK)
         return Response({'error': 'Code is timeout'}, status=status.HTTP_403_FORBIDDEN)
